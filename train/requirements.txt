@@ -1,0 +1,9 @@
+pandas==0.24.2
+Pillow==6.1.0
+opencv-python==4.2.0.34
+albumentations==0.4.2
+tqdm==4.35.0
+labelme==3.16.7
+scikit-learn==0.22.1
+networkx
+defusedxml

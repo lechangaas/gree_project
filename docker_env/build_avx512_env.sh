@@ -1,0 +1,1 @@
+docker build -t cpu_avx512:0.1 -f Dockerfile_avx .

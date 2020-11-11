@@ -1,0 +1,54 @@
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu16.04
+
+ENV http_proxy=http://child-prc.intel.com:913
+ENV https_proxy=http://child-prc.intel.com:913
+ENV no_proxy=127.0.0.1,localhost,intel.com
+
+WORKDIR /root
+
+RUN apt update \
+&& apt install -y \
+        sudo \
+        nano \
+        vim \
+        pigz \
+        wget \
+        unzip \
+        git \
+        curl \
+        bc \
+        build-essential \
+        cpio \
+        cmake \
+        pkg-config \
+        zlib1g-dev \
+        libsqlite3-dev \
+        tk-dev  \
+        libffi-dev \
+        openssl \
+        libssl-dev \
+        checkinstall \
+        libreadline-gplv2-dev \
+        libncursesw5-dev \
+        libsqlite3-dev \
+        tk-dev \
+        libgdbm-dev \
+        libc6-dev \
+        libbz2-dev
+
+RUN wget -c https://www.python.org/ftp/python/3.7.1/Python-3.7.1.tgz \
+&& tar xvf Python-3.7.1.tgz \
+&& cd Python-3.7.1 \
+&& ./configure --with-ssl \
+&& make -j 12 \
+&& make install \
+&& cd .. \
+&& rm -rf Python*
+
+COPY requirements.txt .
+RUN pip3 install --upgrade pip \
+&& pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple \
+&& rm requirements.txt 
+RUN pip3 install tensorflow-gpu==1.13.1 -i https://pypi.mirrors.ustc.edu.cn/simple
+
+CMD ["/bin/bash"]
